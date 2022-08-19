@@ -56,7 +56,7 @@ public class Yisou extends Spider {
             JSONObject result = new JSONObject();
 
             JSONArray videos = new JSONArray();
-            // Elements list = doc.select("ul.newsList>li>div.li_con");
+            
             Elements list = doc.select("div.col-md-8>div.row-cards");
             for (int i = 0; i < list.size(); i++) {
                 Element vod = list.get(i);
@@ -72,7 +72,7 @@ public class Yisou extends Spider {
                     continue;
                 String id = matcher.group(1);
                 JSONObject v = new JSONObject();
-                //v.put("vod_id", vod.select("h3.card-title>a").attr("href"));
+                
                 v.put("vod_id", id);
                 v.put("vod_name", title);
                 v.put("vod_pic", "https://inews.gtimg.com/newsapp_bt/0/13263837859/1000");
