@@ -293,9 +293,35 @@ public class XBiubiu extends Spider {
 
             ArrayList<String> playFrom = new ArrayList<>();
 
+           String xlparseContent = html;
+           if(getRuleVal("xlbiaotiqian").isEmpty() && getRuleVal("xlbiaotihou").isEmpty()){
+           
             for (int i = 0; i < playList.size(); i++) {
                 playFrom.add("播放列表" + (i + 1));
             }
+           }else{
+           
+           boolean xlshifouercijiequ = getRuleVal("xlshifouercijiequ").equals("1");
+            if (xlshifouercijiequ) {
+                String xljiequqian = getRuleVal("xljiequqian");
+                String xljiequhou = getRuleVal("xljiequhou");
+                xlparseContent = subContent(html, xljiequqian, xljiequhou).get(0);
+            }
+            
+            String xljiequshuzuqian = getRuleVal("xljiequshuzuqian");
+            String xljiequshuzuhou = getRuleVal("xljiequshuzuhou");
+            ArrayList<String> xljiequContents = subContent(xlparseContent, xljiequshuzuqian, xljiequshuzuhou);
+            for (int i = 0; i < playList.size(); i++) {
+                try {
+                     String xltitle = subContent(xljiequContents.get(i), getRuleVal("xlbiaotiqian"), getRuleVal("xlbiaotihou")).get(0);                     
+                     playFrom.add(xltitle);
+                } catch (Throwable th) {
+                    th.printStackTrace();
+                    break;
+                }
+            }           
+           
+           }
 
             String vod_play_from = TextUtils.join("$$$", playFrom);
             String vod_play_url = TextUtils.join("$$$", playList);
