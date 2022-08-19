@@ -68,11 +68,11 @@ public class PushAgent extends Spider {
 //    @Override
 //    public void init(Context context) {
 //        super.init(context);
-////        refreshToken = OkHttpUtil.string("https://gitea.com/qiaoji/jar/raw/branch/main/token.txt", null);
+////        refreshToken = OkHttpUtil.string("https://gitee.com/BBTV999/CI/raw/master/token.txt", null);
 ////        if(refreshToken.length()!=32){
-////            refreshToken = "ad3c78559a494bde814f1a6c8c40db51";
+////            refreshToken = "ba24741e0e1d441b85af9e963bc99890";
 ////        }
-//        refreshToken = "ad3c78559a494bde814f1a6c8c40db51";
+//        refreshToken = "ba24741e0e1d441b85af9e963bc99890";
 //    }
 
     private static HashMap<String, String> getHeaders() {
