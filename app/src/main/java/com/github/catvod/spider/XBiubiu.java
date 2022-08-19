@@ -342,11 +342,11 @@ public class XBiubiu extends Spider {
         return "";
     }
 
-    @Override
+   @Override
     public String playerContent(String flag, String id, List<String> vipFlags) {
         try {
             fetchRule();
-            String webUrl = id.startsWith("x:") ? id.substring(2) : getRuleVal("url") + id;
+            String webUrl = getRuleVal("url") + id;
             JSONObject result = new JSONObject();
             result.put("parse", 1);
             result.put("playUrl", "");
@@ -357,7 +357,6 @@ public class XBiubiu extends Spider {
         }
         return "";
     }
-
     @Override
     public String searchContent(String key, boolean quick) {
         try {
