@@ -52,12 +52,7 @@ public class Dy555 extends Spider {
         }
     }
 
-    /**
-     * 爬虫headers
-     *
-     * @param refererUrl
-     * @return
-     */
+    
     protected HashMap<String, String> getHeaders(String refererUrl) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("method", "GET");
@@ -69,12 +64,7 @@ public class Dy555 extends Spider {
         return headers;
     }
 
-    /**
-     * 获取分类数据 + 首页最近更新视频列表数据
-     *
-     * @param filter 是否开启筛选 关联的是 软件设置中 首页数据源里的筛选开关
-     * @return
-     */
+   
     @Override
     public String homeContent(boolean filter) {
         try {
@@ -88,7 +78,7 @@ public class Dy555 extends Spider {
                 Matcher mather = regexCategory.matcher(href);
                 if (!mather.find() || name.contains("福利"))
                     continue;
-                // 把分类的id和名称取出来加到列表里
+                
                 String id = mather.group(1).trim();
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("type_id", id);
@@ -102,7 +92,7 @@ public class Dy555 extends Spider {
             }
             result.put("class", classes);
             try {
-                // 取首页推荐视频列表
+                
                 Elements list = doc.select("div.module-items> a[href*='voddetail']");
                 JSONArray videos = new JSONArray();
                 for (int i = 0; i < list.size(); i++) {
@@ -133,15 +123,7 @@ public class Dy555 extends Spider {
     }
 
 
-    /**
-     * 获取分类信息数据
-     *
-     * @param tid    分类id
-     * @param pg     页数
-     * @param filter 同homeContent方法中的filter
-     * @param extend 筛选参数{k:v, k1:v1}
-     * @return
-     */
+    
     @Override
     public String categoryContent(String tid, String pg, boolean filter, HashMap<String, String> extend) {
         try {
@@ -171,7 +153,7 @@ public class Dy555 extends Spider {
             JSONObject result = new JSONObject();
             int pageCount = 1;
 
-            // 取页码相关信息
+            
             Elements pageInfo = doc.select("div[id='page'] > a:last-child");
             if (pageInfo.size() > 0) {
                 String href = pageInfo.attr("href");
@@ -183,7 +165,7 @@ public class Dy555 extends Spider {
             }
 
             JSONArray videos = new JSONArray();
-            // 取当前分类页的视频列表
+            
             Elements list = doc.select("div.module-items > a[href*='voddetail']");
             for (int i = 0; i < list.size(); i++) {
                 Element vod = list.get(i);
@@ -214,22 +196,17 @@ public class Dy555 extends Spider {
         return "";
     }
 
-    /**
-     * 视频详情信息
-     *
-     * @param ids 视频id
-     * @return
-     */
+   
     @Override
     public String detailContent(List<String> ids) {
         try {
-            // 视频详情url
+            
             String url = siteUrl + "/voddetail/" + ids.get(0) + ".html";
             Document doc = Jsoup.parse(OkHttpUtil.string(url, getHeaders(siteUrl)));
             JSONObject result = new JSONObject();
             JSONObject vodList = new JSONObject();
 
-            // 取基本数据
+            
             String cover = doc.selectFirst("div.module-main img").attr("data-original");
             String title = doc.selectFirst("div.module-main h1").text();
             String desc = doc.selectFirst("div.module-main div.module-info-introduction-content >p").text();
@@ -241,7 +218,7 @@ public class Dy555 extends Spider {
 
             Map<String, String> vod_play = new LinkedHashMap<>();
 
-            // 取播放列表数据
+            
             Elements sources = doc.select("div[id='y-playList'] span");
             Elements sourceList = doc.select("div.module-play-list");
 
@@ -299,18 +276,11 @@ public class Dy555 extends Spider {
 
 
 
-    /**
-     * 获取视频播放信息
-     *
-     * @param flag     播放源
-     * @param id       视频id
-     * @param vipFlags 所有可能需要vip解析的源
-     * @return
-     */
+    
     @Override
     public String playerContent(String flag, String id, List<String> vipFlags) {
         try {
-            // 播放页 url
+            
             String url = siteUrl + "/vodplay/" + id + ".html";
             SpiderDebug.log(url );
             JSONObject result = new JSONObject();
