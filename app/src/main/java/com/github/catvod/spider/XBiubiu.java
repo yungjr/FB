@@ -257,7 +257,7 @@ public class XBiubiu extends Spider {
             }           
            
            }
-            String cover = idInfo[1], title = idInfo[0], area = "";
+             String cover = idInfo[1], title = idInfo[0], area = "";
             String director = "";
             String actor = "";
             String desc = "";
@@ -307,7 +307,6 @@ public class XBiubiu extends Spider {
                     SpiderDebug.log(e);
                 }
             }
-
             JSONObject vod = new JSONObject();
             vod.put("vod_id", ids.get(0));
             vod.put("vod_name", title);
@@ -319,9 +318,7 @@ public class XBiubiu extends Spider {
             vod.put("vod_actor", actor);
             vod.put("vod_director", director);
             vod.put("vod_content", desc);
-
            
-
             String vod_play_from = TextUtils.join("$$$", playFrom);
             String vod_play_url = TextUtils.join("$$$", playList);
             vod.put("vod_play_from", vod_play_from);
@@ -338,11 +335,12 @@ public class XBiubiu extends Spider {
         return "";
     }
 
+
     @Override
     public String playerContent(String flag, String id, List<String> vipFlags) {
         try {
             fetchRule();
-            String webUrl = id.startsWith("x:") ? id.substring(2) : getRuleVal("url") + id;
+            String webUrl = getRuleVal("url") + id;
             JSONObject result = new JSONObject();
             result.put("parse", 1);
             result.put("playUrl", "");
@@ -373,10 +371,8 @@ public class XBiubiu extends Spider {
                     String id = vod.optString(getRuleVal("jsid")).trim();
                     String pic = vod.optString(getRuleVal("jspic")).trim();
                     pic = Misc.fixUrl(webUrl, pic);
-                    String link = getRuleVal("sousuohouzhui") + id;
-                    link = getRuleVal("ssljqianzhui").isEmpty() ? (link + getRuleVal("ssljhouzhui")) : ("x:" + getRuleVal("ssljqianzhui")) + link + getRuleVal("ssljhouzhui");
                     JSONObject v = new JSONObject();
-                    v.put("vod_id", name + "$$$" + pic + "$$$" + link);
+                    v.put("vod_id", name + "$$$" + pic + "$$$" + getRuleVal("sousuohouzhui") + id);
                     v.put("vod_name", name);
                     v.put("vod_pic", pic);
                     v.put("vod_remarks", "");
@@ -400,12 +396,19 @@ public class XBiubiu extends Spider {
                         String pic = subContent(jiequContent, getRuleVal("sstupianqian"), getRuleVal("sstupianhou")).get(0);
                         pic = Misc.fixUrl(webUrl, pic);
                         String link = subContent(jiequContent, getRuleVal("sslianjieqian"), getRuleVal("sslianjiehou")).get(0);
-                        link = getRuleVal("ssljqianzhui").isEmpty() ? (link + getRuleVal("ssljhouzhui")) : ("x:" + getRuleVal("ssljqianzhui")) + link + getRuleVal("ssljhouzhui");
+                        String mark = "";
+                if (!getRuleVal("ssfubiaotiqian").isEmpty() && !getRuleVal("ssfubiaotihou").isEmpty()) {
+                    try {
+                        mark = subContent(jiequContent, getRuleVal("ssfubiaotiqian"), getRuleVal("ssfubiaotihou")).get(0).replaceAll("\\s+", "").replaceAll("\\&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
+                    } catch (Exception e) {
+                        SpiderDebug.log(e);
+                    }
+                }
                         JSONObject v = new JSONObject();
                         v.put("vod_id", title + "$$$" + pic + "$$$" + link);
                         v.put("vod_name", title);
                         v.put("vod_pic", pic);
-                        v.put("vod_remarks", "");
+                        v.put("vod_remarks", mark);
                         videos.put(v);
                     } catch (Throwable th) {
                         th.printStackTrace();
@@ -475,12 +478,8 @@ public class XBiubiu extends Spider {
 
     private ArrayList<String> subContent(String content, String startFlag, String endFlag) {
         ArrayList<String> result = new ArrayList<>();
-        if (startFlag.isEmpty() && endFlag.isEmpty()) {
-            result.add(content);
-            return result;
-        }
         try {
-            Pattern pattern = Pattern.compile(escapeExprSpecialWord(startFlag) + "(.*?)" + escapeExprSpecialWord(endFlag));
+            Pattern pattern = Pattern.compile(startFlag + "(.*?)" + endFlag);
             Matcher matcher = pattern.matcher(content);
             while (matcher.find()) {
                 result.add(matcher.group(1));
@@ -490,8 +489,7 @@ public class XBiubiu extends Spider {
         }
         return result;
     }
-
-    String escapeExprSpecialWord(String regexStr) {
+String escapeExprSpecialWord(String regexStr) {
         if (!regexStr.isEmpty()) {
             String[] fbsArr = {"\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|"};
             for (String key : fbsArr) {
