@@ -40,17 +40,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-
+/**
+ * Demo for self study
+ * <p>
+ * Source from Author: CatVod
+ */
 
 public class Ddrk extends Spider {
 
-    private static final String siteUrl = "https://ddys.tv";
-    private static final String siteHost = "ddys.tv";
+    private static final String siteUrl = "https://ddrk.me";
+    private static final String siteHost = "ddrk.me";
 
     protected JSONObject filterConfig;
 
     protected Pattern regexCategory = Pattern.compile("/category/(\\S+)/");
-    protected Pattern regexVid = Pattern.compile("https://ddys.tv/(\\S+)/");
+    protected Pattern regexVid = Pattern.compile("https://ddrk.me/(\\S+)/");
 
     protected Pattern regexPage = Pattern.compile("\\S+/page/(\\S+)\\S+");
     protected Pattern m = Pattern.compile("\\S+(http\\S+g)");
@@ -59,18 +63,18 @@ public class Ddrk extends Spider {
     //   protected Pattern t = Pattern.compile("(\\S+)");
 
 
-    
+   
     protected HashMap<String, String> getHeaders(String url) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36");
-        headers.put("Referer", "https://ddys.tv/");
+        headers.put("Referer", "https://ddrk.me/");
         return headers;
     }
 
     protected static HashMap<String, String> Headers() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
-        headers.put("Referer", "https://ddys.tv/");
+        headers.put("Referer", "https://ddrk.me/");
         return headers;
     }
 
@@ -170,7 +174,7 @@ public class Ddrk extends Spider {
     }
 
 
-    
+   
     @Override
     public String categoryContent(String tid, String pg, boolean filter, HashMap<String, String> extend) {
         String url = "";
@@ -202,7 +206,7 @@ public class Ddrk extends Spider {
             int pageCount = 0;
             int page = -1;
 
-           
+            
             Elements pageInfo = doc.select("div.nav-links");
             if (pageInfo.size() == 0) {
                 page = Integer.parseInt(pg);
@@ -351,8 +355,8 @@ public class Ddrk extends Spider {
                     JSONObject src = Track.getJSONObject(k);
                     String adk = src.getString("src1");
                     String vodName = src.getString("caption");
-                    String playURL = "https://ddys.tv/getvddr/video?id=" + adk + "&type=mix";
-                    String zm = "https://ddys.tv/subddr/" + src.getString("subsrc");
+                    String playURL = "https://ddrk.me/getvddr/video?id=" + adk + "&type=mix";
+                    String zm = "https://ddrk.me/subddr/" + src.getString("subsrc");
                     String pzm = playURL + "|" + zm;
                     vodItems.add(vodName + "$" + pzm);
                 }
@@ -377,8 +381,8 @@ public class Ddrk extends Spider {
                             JSONObject src = Track.getJSONObject(k);
                             String adk = src.getString("src1");
                             String vodName = src.getString("caption");
-                            String playURL = "https://ddys.tv/getvddr/video?id=" + adk + "&type=mix";
-                            String zm = "https://ddys.tv/subddr/" + src.getString("subsrc");
+                            String playURL = "https://ddrk.me/getvddr/video?id=" + adk + "&type=mix";
+                            String zm = "https://ddrk.me/subddr/" + src.getString("subsrc");
                             String pzm = playURL + "|" + zm;
                             vodItems2.add(vodName + "$" + pzm);
                         }
@@ -458,7 +462,7 @@ public class Ddrk extends Spider {
     }
 
 
-   
+    
     @Override
     public String playerContent(String flag, String id, List<String> vipFlags) {
         try {
@@ -490,7 +494,7 @@ public class Ddrk extends Spider {
     @Override
     public String searchContent(String key, boolean quick) {
         try {
-            String url = "https://www.google.com/search?q=site%3Addys.tv+" + URLEncoder.encode(key);
+            String url = "https://www.google.com/search?q=site%3Addrk.me+" + URLEncoder.encode(key);
             Document doc = Jsoup.parse(OkHttpUtil.string(url, getHeaders(url)));
             JSONObject result = new JSONObject();
             JSONArray videos = new JSONArray();
