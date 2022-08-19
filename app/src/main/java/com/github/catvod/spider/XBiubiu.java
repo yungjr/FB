@@ -320,11 +320,7 @@ public class XBiubiu extends Spider {
             vod.put("vod_director", director);
             vod.put("vod_content", desc);
 
-            ArrayList<String> playFrom = new ArrayList<>();
-
-            for (int i = 0; i < playList.size(); i++) {
-                playFrom.add("播放列表" + (i + 1));
-            }
+           
 
             String vod_play_from = TextUtils.join("$$$", playFrom);
             String vod_play_url = TextUtils.join("$$$", playList);
