@@ -40,11 +40,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-/**
- * Demo for self study
- * <p>
- * Source from Author: CatVod
- */
+
 
 public class Ddrk extends Spider {
 
@@ -63,12 +59,7 @@ public class Ddrk extends Spider {
     //   protected Pattern t = Pattern.compile("(\\S+)");
 
 
-    /**
-     * 爬虫headers
-     *
-     * @param url
-     * @return
-     */
+    
     protected HashMap<String, String> getHeaders(String url) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36");
@@ -83,12 +74,7 @@ public class Ddrk extends Spider {
         return headers;
     }
 
-    /**
-     * 获取分类数据 + 首页最近更新视频列表数据
-     *
-     * @param filter 是否开启筛选 关联的是 软件设置中 首页数据源里的筛选开关
-     * @return
-     */
+    
     @Override
     public String homeContent(boolean filter) {
         try {
@@ -120,7 +106,7 @@ public class Ddrk extends Spider {
                     Matcher mather = regexCategory.matcher(ele.attr("href"));
                     if (!mather.find())
                         continue;
-                    // 把分类的id和名称取出来加到列表里
+                    
                     String id = mather.group(1).trim();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("type_id", id);
@@ -134,7 +120,7 @@ public class Ddrk extends Spider {
             }
             result.put("class", classes);
             try {
-                // 取首页推荐视频列表
+                
                 Elements list = doc.select("div.post-box-container");
                 JSONArray videos = new JSONArray();
                 for (int i = 0; i < list.size(); i++) {
@@ -184,15 +170,7 @@ public class Ddrk extends Spider {
     }
 
 
-    /**
-     * 获取分类信息数据
-     *
-     * @param tid    分类id
-     * @param pg     页数
-     * @param filter 同homeContent方法中的filter
-     * @param extend 筛选参数{k:v, k1:v1}
-     * @return
-     */
+    
     @Override
     public String categoryContent(String tid, String pg, boolean filter, HashMap<String, String> extend) {
         String url = "";
@@ -224,7 +202,7 @@ public class Ddrk extends Spider {
             int pageCount = 0;
             int page = -1;
 
-            // 取页码相关信息
+           
             Elements pageInfo = doc.select("div.nav-links");
             if (pageInfo.size() == 0) {
                 page = Integer.parseInt(pg);
@@ -256,7 +234,7 @@ public class Ddrk extends Spider {
 
             JSONArray videos = new JSONArray();
             if (!html.contains("没有找到您想要的结果哦")) {
-                // 取当前分类页的视频列表
+                
                 Elements list = doc.select("div.post-box-container");
                 for (int i = 0; i < list.size(); i++) {
                     Element vod = list.get(i);
@@ -306,22 +284,17 @@ public class Ddrk extends Spider {
         return "";
     }
 
-    /**
-     * 视频详情信息
-     *
-     * @param ids 视频id
-     * @return
-     */
+    
     @Override
     public String detailContent(List<String> ids) {
         try {
-            // 视频详情url
+            
             String url = siteUrl + "/" + ids.get(0) + "/";
             Document doc = Jsoup.parse(OkHttpUtil.string(url, getHeaders(url)));
             JSONObject result = new JSONObject();
             JSONObject vodList = new JSONObject();
 
-            // 取基本数据
+            
             String cover = doc.select("div.post img").attr("src");
             String ab = doc.select("h1.post-title").text();
             if (ab.contains("(")) {
@@ -485,14 +458,7 @@ public class Ddrk extends Spider {
     }
 
 
-    /**
-     * 获取视频播放信息
-     *
-     * @param flag     播放源
-     * @param id       视频id
-     * @param vipFlags 所有可能需要vip解析的源
-     * @return
-     */
+   
     @Override
     public String playerContent(String flag, String id, List<String> vipFlags) {
         try {
