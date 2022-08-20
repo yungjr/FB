@@ -57,8 +57,8 @@ public class Proxy extends Spider {
                 return PushAgent.vod(params);
             } else if (what.equals("czspp")) {
                 return Czsapp.loadsub(params.get("url"));
-            } else if (what.equals("kmys")) {
-                return Kmys.vod(params);
+            } else if (what.equals("ddrk")) {
+                return ddrk.loadsub(params.get("url"));
             }
 
         } catch (Throwable th) {
