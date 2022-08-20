@@ -429,7 +429,7 @@ public class XPath extends Spider {
         return false;
     }
 
-    private String[] videoFormatList = new String[]{".m3u8", ".mp4", ".mpeg", ".flv"};
+    private String[] videoFormatList = new String[]{".m3u8", ".mp4", ".mpeg", ".flv", ".avi", ".mkv", ".rm", ".wmv", ".mpg", ".mpeg", ".ts", ".mpeg, ".asf", ".rmvb", ".vob", ".mp3"};
 
     @Override
     public boolean isVideoFormat(String url) {
