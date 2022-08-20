@@ -470,7 +470,7 @@ public class PushAgent extends Spider {
                 JSONObject vodAtom = new JSONObject();
                 vodAtom.put("vod_id", url);
                 vodAtom.put("vod_name", url);
-                vodAtom.put("vod_pic", "https://s1.ax1x.com/2022/06/27/jVJZCR.jpg");
+                vodAtom.put("vod_pic", "https://pic.rmb.bdstatic.com/bjh/1d0b02d0f57f0a42201f92caba5107ed.jpeg");
                 vodAtom.put("type_name", "直连");
                 vodAtom.put("vod_play_from", "player");
                 vodAtom.put("vod_play_url", "立即播放$" + url);
@@ -488,7 +488,7 @@ public class PushAgent extends Spider {
                 JSONObject vodAtom = new JSONObject();
                 vodAtom.put("vod_id", url);
                 vodAtom.put("vod_name", !name.equals("") ? name : url);
-                vodAtom.put("vod_pic", "https://s1.ax1x.com/2022/06/27/jVJZCR.jpg");
+                vodAtom.put("vod_pic", "https://pic.rmb.bdstatic.com/bjh/1d0b02d0f57f0a42201f92caba5107ed.jpeg");
                 vodAtom.put("type_name", "磁力链接");
                 vodAtom.put("vod_content", url);
                 vodAtom.put("vod_play_from", "magnet");
@@ -566,7 +566,7 @@ public class PushAgent extends Spider {
                 JSONObject vodAtom = new JSONObject();
                 vodAtom.put("vod_id", url);
                 vodAtom.put("vod_name", url);
-                vodAtom.put("vod_pic", "https://s1.ax1x.com/2022/06/27/jVJZCR.jpg");
+                vodAtom.put("vod_pic", "https://pic.rmb.bdstatic.com/bjh/1d0b02d0f57f0a42201f92caba5107ed.jpeg");
                 vodAtom.put("type_name", "网页");
                 vodAtom.put("vod_play_from", "parse");
                 vodAtom.put("vod_play_url", "立即播放$" + url);
