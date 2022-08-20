@@ -444,6 +444,7 @@ public class XPath extends Spider {
                     return false;
                 } else {
                 return true;
+              }
             }
         }
         return false;
